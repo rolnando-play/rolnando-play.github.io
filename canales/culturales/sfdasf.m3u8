@@ -1,0 +1,8 @@
+#EXTM3U
+#EXT-X-TARGETDURATION:10
+#EXT-X-MEDIA-SEQUENCE:153861887
+#EXT-X-VERSION:3
+#EXT-X-KEY:METHOD=AES-128,URI="https://securehls-live01.clarovideo.net/media/playlist/key.aes/legacy_mode/false/sf/5/time/1/t/0a23d4344f11df3e718aa2ef67d199a9/f/621/M3U8/1538598031.dat"
+#EXT-X-PROGRAM-DATE-TIME:2018-10-04T02:07:49Z
+#EXTINF:10,
+http://colivechannelshls.clarovideo.com/Content/hls_kr/Live/Channel(NATGEO_HD)/Stream(02)/index.m3u8
