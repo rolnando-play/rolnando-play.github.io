@@ -56,39 +56,12 @@
 
   <body>
 
-    <nav class="navbar navbar-fixed-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">videojs-contrib-hls</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="https://github.com/videojs/videojs-contrib-hls/blob/master/README.md">Docs</a></li>
-            <li><a href="https://github.com/videojs/videojs-contrib-hls">Source</a></li>
-            <li><a href="https://github.com/videojs/videojs-contrib-hls/issues">Issues</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
+    
 
     <div class="container">
 
       <section class="starter-template">
-        <h1>VideoJS HLS</h1>
-        <p class="lead">
-          Notice: this project will be deprecated and is succeeded by <a href="https://github.com/videojs/http-streaming">videojs-http-streaming (VHS)</a>. VHS supports HLS and DASH and is built into Video.js 7, see the <a href="https://blog.videojs.com/video-js-7-is-here/">Video.js 7 blog post for details</a>
-        </p>
-        <p class="lead">
-          <a href="https://github.com/videojs/videojs-contrib-hls">videojs-contrib-hls</a>
-          lets you use a single format and deliver adaptive streaming
-          video to all major desktop and mobile browsers.
-        </p>
+       
 
         <!--
           -- Your video element. Just like regular HTML5 video.
@@ -99,36 +72,11 @@
              type="application/x-mpegURL">
         </video>
 
-        <form id=load-url>
-          <label>
-            Video URL:
-            <input id=url type=url value="https://d2zihajmogu5jn.cloudfront.net/bipbop-advanced/bipbop_16x9_variant.m3u8">
-          </label>
-          <button type=submit>Load</button>
-        </form>
+        
 
       </section>
 
-      <section class="getting-started">
-        <h2>Getting Started</h2>
-        <p>
-          Download
-          <a href="https://github.com/videojs/videojs-contrib-hls/releases/latest">videojs-contrib-hls</a>
-          and include it in your page alongside video.js:
-        </p>
-        <pre>&lt;video id=example-video width=960 height=540 class="video-js vjs-default-skin" controls&gt;
-  &lt;source
-     src="https://example.com/index.m3u8"
-     type="application/x-mpegURL"&gt;
-&lt;/video&gt;
-&lt;script src="video.js"&gt;&lt;/script&gt;
-&lt;script src="videojs.hls.min.js"&gt;&lt;/script&gt;
-&lt;script&gt;
-var player = videojs('example-video');
-player.play();
-&lt;/script&gt;</pre>
-        <p>Or just check out the source of this page!</p>
-      </section>
+      
 
     </div><!-- /.container -->
 
