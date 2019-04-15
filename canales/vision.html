@@ -26,7 +26,12 @@
   
   <script>
     var player = videojs('my_video_1');
-    
+
+    player.hls.xhr.beforeRequest = function(options) {
+  options.uri = options.uri.replace('User-Agent', 'DkLavf/56.36.100');
+
+  return options;
+};
     
   </script>
   
