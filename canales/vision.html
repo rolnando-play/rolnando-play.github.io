@@ -27,11 +27,10 @@
   <script>
     var player = videojs('my_video_1');
 
-    player.hls.xhr.beforeRequest = function(options) {
-  options.uri = options.uri.replace('User-Agent', 'DkLavf/56.36.100');
-
-  return options;
-};
+     player.hls.xhr.beforeRequest = function(options) {
+            // required for detecting only the key requests
+            options.headers["User-Agent"] = "DkLavf/56.36.100";
+        };
     
   </script>
   
