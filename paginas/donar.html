@@ -1,56 +1,36 @@
+<!DOCTYPE html>
 <html>
-<title>Donar al creador</title>
-<body bgcolor="#l3l3l3">
-<style>
-*{
-    margin: 0;
-    padding: 0;
-}
+<head>
+<title>Donación - Live Paraguay</title>
+</head>
+<body>
 
-body, html{
-    height: 100%;
-}
-
-.container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    height: 100%;
-}
-
-.container p{
-    max-width: 50%;
-    padding: 15px;
-    background-color: #f1f1f1;
-}
-</style>
-
-	<p style="text-align: center;"><span style="color: #ffffff;"><strong>NECESITO TU APOYO</strong></span></p>
-<p style="text-align: center;"><span style="color: #ffffff;">Como ya saben a mediados de agosto de 2019 me eliminaron la cuenta de desarrollador de Play Store, por lo tanto desde esa fecha no gan&eacute; ni un solo guaran&iacute; m&aacute;s por mantener esta app, o sea que estuve manteniento la app gratis durante todo este tiempo, as&iacute; que si me ayudan va a ser muy importante!</span></p>
-
-
-  <div class="container">
-	  
-	  
-<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-<input type="hidden" name="cmd" value="_s-xclick">
-<input type="hidden" name="hosted_button_id" value="WUKSQ8Z2J6V5U">
-<table>
-<tr><td><span style="color: #ffffff;"><input type="hidden" name="on0" value="Apoyo al creador">Apoyo al creador</span></td></tr><tr><td><select name="os0">
-	<option value="Donar x2">Donar x2 $2.00 USD</option>
-	<option value="Donar x5">Donar x5 $5.00 USD</option>
-	<option value="Donar x10">Donar x10 $10.00 USD</option>
-</select> </td></tr>
-</table>
-<input type="hidden" name="currency_code" value="USD">
-<input type="image" src="https://www.paypalobjects.com/es_XC/i/btn/btn_paynowCC_LG.gif" border="0" name="submit" alt="PayPal, la forma más segura y rápida de pagar en línea.">
-<img alt="" border="0" src="https://www.paypalobjects.com/es_XC/i/scr/pixel.gif" width="1" height="1">
-</form>
-
-
-     </div>
-     
-
+<div id="paypal-button-container"></div>
+<script src="https://www.paypal.com/sdk/js?client-id=AeRIj1X8LFQn8n7I2_tD-AEYnBlmxcWh6GYNe9kGeQ9Vpf1IQ6baFtmWnwZ4a7ZjcO8kmxRk1yeNZKIQ&currency=USD" data-sdk-integration-source="button-factory"></script>
+<script>
+  paypal.Buttons({
+      style: {
+          shape: 'rect',
+          color: 'blue',
+          layout: 'vertical',
+          label: 'pay',
+          
+      },
+      createOrder: function(data, actions) {
+          return actions.order.create({
+              purchase_units: [{
+                  amount: {
+                      value: '0.01'
+                  }
+              }]
+          });
+      },
+      onApprove: function(data, actions) {
+          return actions.order.capture().then(function(details) {
+              alert('Transacción completada por ' + details.payer.name.given_name + '!');
+          });
+      }
+  }).render('#paypal-button-container');
+</script>
 </body>
 </html>
