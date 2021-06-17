@@ -1,52 +1,77 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>OnePlayer Pro</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
-  background: #fff;
-}
-
-.content {
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  padding: 10px;
-}
-</style>
-</head>
-<body>
-
-<div class="content">
-<div id="paypal-button-container"></div>
-<script src="https://www.paypal.com/sdk/js?client-id=AWwC_i1KM-xq9_qHneu-qINYf8Znbbbtqx4TVR1YGvEN87xEk69vAwhb-jk5cjnpJVfmOtj57IYvu2aN&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
-<script>
-  paypal.Buttons({
-      style: {
-          shape: 'rect',
-          color: 'blue',
-          layout: 'vertical',
-          label: 'pay',
-          
-      },
-      createOrder: function(data, actions) {
-          return actions.order.create({
-              purchase_units: [{
-                  amount: {
-                      value: '5.50'
-                  }
-              }]
-          });
-      },
-      onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-              alert('Transaccion completada por ' + details.payer.name.given_name + '!' + 'Envia el comprobante que recibiste en tu correo al correo indicado en la aplicación.');
-          });
-      }
-  }).render('#paypal-button-container');
-</script>
-</div>
-
-</body>
-</html>
+<div class="container">
+	<div class="row">
+    			<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+				
+					<!-- PRICE ITEM -->
+					<div class="panel price panel-red">
+						<div class="panel-heading  text-center">
+						<h3>PLAN X3</h3>
+						</div>
+						<div class="panel-body text-center">
+							<p class="lead" style="font-size:40px"><strong>$5.50</strong></p>
+						</div>
+						<ul class="list-group list-group-flush text-center">
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> 3 dispositivos</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Sin publicidad</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Un solo pago</li>
+						</ul>
+						<div class="panel-footer">
+							<a class="btn btn-lg btn-block btn-danger" href=pagox3.html">COMPRAR</a>
+						</div>
+					</div>
+					<!-- /PRICE ITEM -->
+					
+					
+				</div>
+				
+				<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+				
+					<!-- PRICE ITEM -->
+					<div class="panel price panel-blue">
+						<div class="panel-heading arrow_box text-center">
+						<h3>PLAN X6</h3>
+						</div>
+						<div class="panel-body text-center">
+							<p class="lead" style="font-size:40px"><strong>$9$</strong></p>
+						</div>
+						<ul class="list-group list-group-flush text-center">
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> 3 dispositivos</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Sin publicidad</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Un solo pago</li>
+						</ul>
+						<div class="panel-footer">
+							<a class="btn btn-lg btn-block btn-info" href="pagox6.html">COMPRAR</a>
+						</div>
+					</div>
+					<!-- /PRICE ITEM -->
+					
+					
+				</div>
+				
+				<div class="col-xs-6 col-sm-6 col-md-3 col-lg-3">
+				
+					<!-- PRICE ITEM -->
+					<div class="panel price panel-green">
+						<div class="panel-heading arrow_box text-center">
+						<h3>PLAN X9</h3>
+						</div>
+						<div class="panel-body text-center">
+							<p class="lead" style="font-size:40px"><strong>$12</strong></p>
+						</div>
+						<ul class="list-group list-group-flush text-center">
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> 3 dispositivos</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Sin publicidad</li>
+							<li class="list-group-item"><i class="icon-ok text-danger"></i> Un solo pago</li>
+						</ul>
+						<div class="panel-footer">
+							<a class="btn btn-lg btn-block btn-success" href="pagox9.html">COMPRAR</a>
+						</div>
+					</div>
+					<!-- /PRICE ITEM -->
+					
+					
+				</div>
+				
+				
+			</div>
+            
