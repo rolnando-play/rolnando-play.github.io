@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Donación - Live Paraguay</title>
+  <title>Donación - OnePlayer</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 body {
@@ -19,33 +19,11 @@ body {
 <body>
 
 <div class="content">
-<div id="paypal-button-container"></div>
-<script src="https://www.paypal.com/sdk/js?client-id=AeRIj1X8LFQn8n7I2_tD-AEYnBlmxcWh6GYNe9kGeQ9Vpf1IQ6baFtmWnwZ4a7ZjcO8kmxRk1yeNZKIQ&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
-<script>
-  paypal.Buttons({
-      style: {
-          shape: 'rect',
-          color: 'blue',
-          layout: 'vertical',
-          label: 'pay',
-          
-      },
-      createOrder: function(data, actions) {
-          return actions.order.create({
-              purchase_units: [{
-                  amount: {
-                      value: '3.50'
-                  }
-              }]
-          });
-      },
-      onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-              alert('Transaction completed by ' + details.payer.name.given_name + '!');
-          });
-      }
-  }).render('#paypal-button-container');
-</script>
+<form action="https://www.paypal.com/donate" method="post" target="_top">
+<input type="hidden" name="hosted_button_id" value="SXJC2NFMN6NC8" />
+<input type="image" src="https://www.paypalobjects.com/es_ES/ES/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+<img alt="" border="0" src="https://www.paypal.com/es_ES/i/scr/pixel.gif" width="1" height="1" />
+</form>
 </div>
 
 </body>
