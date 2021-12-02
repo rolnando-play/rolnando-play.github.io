@@ -19,33 +19,52 @@ body {
 <body>
 
 <div class="content">
-<div id="paypal-button-container"></div>
-<script src="https://www.paypal.com/sdk/js?client-id=ARPymw-zjqWET0Gs9fbQMDc-usfYRRqx43U3S06HgIrYh7d_efHN_iK0EtY6xcqKhQIpXYboHWoq2QoQ&currency=USD&locale=es_ES" data-sdk-integration-source="button-factory"></script>
-<script>
-  paypal.Buttons({
-      style: {
+<div id="smart-button-container">
+      <div style="text-align: center;">
+        <div id="paypal-button-container"></div>
+      </div>
+    </div>
+  <script src="https://www.paypal.com/sdk/js?client-id=ARPymw-zjqWET0Gs9fbQMDc-usfYRRqx43U3S06HgIrYh7d_efHN_iK0EtY6xcqKhQIpXYboHWoq2QoQ&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+  <script>
+    function initPayPalButton() {
+      paypal.Buttons({
+        style: {
           shape: 'rect',
-          color: 'blue',
+          color: 'gold',
           layout: 'vertical',
-          label: 'pay',
+          label: 'paypal',
           
-      },
-      createOrder: function(data, actions) {
+        },
+
+        createOrder: function(data, actions) {
           return actions.order.create({
-              purchase_units: [{
-                  amount: {
-                      value: '15'
-                  }
-              }]
+            purchase_units: [{"amount":{"currency_code":"USD","value":15.0}}]
           });
-      },
-      onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details) {
-              alert('Transaccion completada por ' + details.payer.name.given_name + '!' + 'Envia el comprobante que recibiste en tu correo al correo indicado en la aplicación.');
+        },
+
+        onApprove: function(data, actions) {
+          return actions.order.capture().then(function(orderData) {
+            
+            // Full available details
+            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+            // Show a success message within this page, e.g.
+            const element = document.getElementById('paypal-button-container');
+            element.innerHTML = '';
+            element.innerHTML = '<h3>Gracias por tu pago, envía el comprobante de pago que recibiste en tu correo a nuestro Telegram o correo!</h3>';
+
+            // Or go to another URL:  actions.redirect('thank_you.html');
+            
           });
-      }
-  }).render('#paypal-button-container');
-</script>
+        },
+
+        onError: function(err) {
+          console.log(err);
+        }
+      }).render('#paypal-button-container');
+    }
+    initPayPalButton();
+  </script>
 </div>
 
 </body>
