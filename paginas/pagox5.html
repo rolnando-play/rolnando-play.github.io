@@ -29,21 +29,7 @@
         function generateImage() {
   const paymentDataElement = document.getElementById('paypal-button-container');
 
-  html2canvas(document.body, {
-    ignoreElements: function(element) {
-      // Excluir los elementos específicos de la captura de pantalla
-      if (
-        element === paymentDataElement ||
-        element.id === 'idMessage' ||
-        element.id === 'btnTelegram' ||
-        element.id === 'btnCorreo' ||
-        element.id === 'btnDownload'
-      ) {
-        return true;
-      }
-      return false;
-    }
-  }).then(function(canvas) {
+  html2canvas(paymentDataElement).then(function(canvas) {
     const ctx = canvas.getContext('2d');
     // Crear una nueva imagen para el logotipo
     const logoImg = new Image();
