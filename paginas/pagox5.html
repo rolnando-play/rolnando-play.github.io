@@ -24,17 +24,37 @@
       </div>
       <!-- <script src="https://www.paypal.com/sdk/js?client-id=ARPymw-zjqWET0Gs9fbQMDc-usfYRRqx43U3S06HgIrYh7d_efHN_iK0EtY6xcqKhQIpXYboHWoq2QoQ&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script> -->
       <script src="https://www.paypal.com/sdk/js?client-id=AWVCLLTG-R8Q1p9FOBtTFDspr5exwDzdifSt94v0_UlOHInSHJFZ96JERvbiQYBneEwJeHw_U9_qIGgo&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
-      <<!--script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>-->
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
       <script>
         function generateImage() {
+  // Capturar la página sin el logotipo
   html2canvas(document.body).then(function(canvas) {
-    // Crear un elemento <a> para descargar la imagen
-    const link = document.createElement('a');
-    link.download = 'comprobante.png';
-    link.href = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
-    link.click();
+    const ctx = canvas.getContext('2d');
+
+    // Crear una nueva imagen para el logotipo
+    const logoImg = new Image();
+    logoImg.src = 'logo.png'; // Reemplaza 'ruta_del_logotipo.png' con la ruta correcta a tu imagen de logotipo
+
+// Configurar la fuente del texto
+    const font = '20px Arial'; // Reemplaza 'Arial' con el nombre de la fuente que deseas utilizar
+    ctx.font = font;
+
+// Dibujar el texto en el lienzo
+    const text = 'Gracias por tu pago'; // Texto que deseas agregar a la imagen
+    ctx.fillText(text, 10, 10); // Ajusta las coordenadas según sea necesario
+    
+    // Dibujar el logotipo en la esquina superior derecha de la imagen generada
+    logoImg.onload = function() {
+      ctx.drawImage(logoImg, canvas.width - logoImg.width - 10, 10); // Ajusta las coordenadas según sea necesario
+      // Crear un elemento <a> para descargar la imagen con el logotipo
+      const link = document.createElement('a');
+      link.download = 'comprobante.png';
+      link.href = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      link.click();
+    };
   });
 }
+
 
 
         function initPayPalButton() {
@@ -98,4 +118,3 @@
     </div>
   </body>
 </html>
-<!DOCTYPE html>
