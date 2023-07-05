@@ -29,11 +29,6 @@
         function generateImage() {
   const paymentDataElement = document.getElementById('paypal-button-container');
 
-// Eliminar el elemento con la clase 'divButtons' del clon
-  const divButtonsElement = paymentDataElement.getElementsByClassName('divButtons')[0];
-  if (divButtonsElement) {
-    divButtonsElement.remove();
-  }
           
   html2canvas(paymentDataElement).then(function(canvas) {
     const ctx = canvas.getContext('2d');
@@ -94,7 +89,7 @@
     // Agregar más información relevante del pago según tus necesidades
 
     // Agregar el div con la clase 'divButtons'
-    content += '<div class="divButtons">';
+    content += '<div class="divButtons" data-html2canvas-ignore="true">';
     content += '<br><br><h3>No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico.</h3>';
     content += '<br><br><button onclick="window.location.href=\'https://t.me/one1player\'">Telegram</button>';
     content += '<button onclick="window.location.href=\'mailto:liveparaguay2@gmail.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'">Enviar correo</button>';
