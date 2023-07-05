@@ -24,24 +24,19 @@
       </div>
       <!-- <script src="https://www.paypal.com/sdk/js?client-id=ARPymw-zjqWET0Gs9fbQMDc-usfYRRqx43U3S06HgIrYh7d_efHN_iK0EtY6xcqKhQIpXYboHWoq2QoQ&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script> -->
       <script src="https://www.paypal.com/sdk/js?client-id=AWVCLLTG-R8Q1p9FOBtTFDspr5exwDzdifSt94v0_UlOHInSHJFZ96JERvbiQYBneEwJeHw_U9_qIGgo&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
       <script>
-
-function captureScreenshot() {
-  const element = document.getElementById('paypal-button-container');
-
-  html2canvas(element).then(function(canvas) {
-    // Crea una imagen a partir del lienzo (canvas)
-    const imgData = canvas.toDataURL('image/png');
-
-    // Crea un elemento <a> para descargar la imagen
+function generateImage() {
+  html2canvas(document.body).then(function(canvas) {
+    // Crear un elemento <a> para descargar la imagen
     const link = document.createElement('a');
-    link.href = imgData;
-    link.download = 'comprobante_pago.png';
+    link.download = 'comprobante.png';
+    link.href = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
     link.click();
   });
 }
 
-        
+      
         function initPayPalButton() {
           paypal.Buttons({
             style: {
@@ -61,33 +56,26 @@ function captureScreenshot() {
               });
             },
             onApprove: function(data, actions) {
-  return actions.order.capture().then(function(orderData) {
-    // Mostrar los datos del pago de forma comprensible
-    const element = document.getElementById('paypal-button-container');
-    element.innerHTML = '';
-    element.innerHTML = '<h3>Gracias por tu pago. A continuación se muestran los detalles:</h3>';
+              return actions.order.capture().then(function(orderData) {
+                // Mostrar los datos del pago de forma comprensible
+                const element = document.getElementById('paypal-button-container');
+                element.innerHTML = '';
+                element.innerHTML = ' < h3 > Gracias por tu pago.A continuación se muestran los detalles: < /h3>';
+                // Mostrar información relevante del pago
+                element.innerHTML += ' < p > < strong > ID de la transacción: < /strong> ' + orderData.id + ' < /p>';
+                element.innerHTML += ' < p > < strong > Monto pagado: < /strong> ' + orderData.purchase_units[0].amount.value + ' ' + orderData.purchase_units[0].amount.currency_code + ' < /p>';
+                element.innerHTML += ' < p > < strong > Correo del comprador: < /strong> ' + orderData.payer.email_address + ' < /p>';
+                element.innerHTML += ' < p > < strong > Hora de la transacción: < /strong> ' + orderData.create_time + ' < /p>';
+                // Agrega más información relevante del pago según tus necesidades
+                // Mostrar el mensaje de éxito
+                element.innerHTML += ' < br > < br > < h3 > No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico. < /h3>';
+                element.innerHTML += ' < br > < br > < button onclick = "window.location.href=\'https://t.me/one1player\'" > Telegram < /button>';
+                element.innerHTML += ' < button onclick = "window.location.href=\'mailto:liveparaguay2@gmail.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'" > Enviar correo < /button>';
+                element.innerHTML += '<br><br><button onclick="generateImage()">Descargar comprobante</button>';
 
-    // Mostrar información relevante del pago
-    element.innerHTML += '<p><strong>ID de la transacción:</strong> ' + orderData.id + '</p>';
-    element.innerHTML += '<p><strong>Monto pagado:</strong> ' + orderData.purchase_units[0].amount.value + ' ' + orderData.purchase_units[0].amount.currency_code + '</p>';
-    element.innerHTML += '<p><strong>Correo del comprador:</strong> ' + orderData.payer.email_address + '</p>';
-    element.innerHTML += '<p><strong>Hora de la transacción:</strong> ' + orderData.create_time + '</p>';
-    // Agrega más información relevante del pago según tus necesidades
-
-    // Mostrar el mensaje de éxito
-    element.innerHTML += '<br><br><h3>No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico.</h3>';
-
-    element.innerHTML += '<br><br><button onclick="window.location.href=\'https://t.me/one1player\'">Telegram</button>';
-    element.innerHTML += '<button onclick="window.location.href=\'mailto:liveparaguay2@gmail.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'">Enviar correo</button>';
-  element.innerHTML += '<br><br><button onclick="captureScreenshot()">Descargar comprobante</button>';
-
-    // O redirigir a otra URL: actions.redirect('thank_you.html');
-  });
-},
-
-
-
-
+                // O redirigir a otra URL: actions.redirect('thank_you.html');
+              });
+            },
             /*onApprove: function(data, actions) {
               return actions.order.capture().then(function(orderData) {
                 // Full available details
@@ -95,13 +83,12 @@ function captureScreenshot() {
                 // Show a success message within this page, e.g.
                 const element = document.getElementById('paypal-button-container');
                 element.innerHTML = '';
-                element.innerHTML = ' < h3 > Gracias por tu pago, envía el comprobante de pago que recibiste en tu correo a nuestro Telegram o correo! < br > < br > ESTO NO ES UN COMPROBANTE DE PAGO < /h3> < br > < br > < h2 > NO ENVIAR CAPTURA DE ESTE MENSAJE < br > NO ENVIAR CAPTURAS DE LA TRANSACCIÓN DEL BANCO, SOLO LA DE PAYPAL < /h2>';
+                element.innerHTML = ' < h3 > Gracias por tu pago, envía el comprobante de pago que recibiste en tu correo a nuestro Telegram o correo! < br >< br > ESTO NO ES UN COMPROBANTE DE PAGO < /h3>< br >< br >< h2 > NO ENVIAR CAPTURA DE ESTE MENSAJE < br > NO ENVIAR CAPTURAS DE LA TRANSACCIÓN DEL BANCO, SOLO LA DE PAYPAL < /h2>';
                 // Or go to another URL: actions.redirect('thank_you.html');
                 // Print the invoice
                 
               });
             },*/
-            
             onError: function(err) {
               console.log(err);
             }
