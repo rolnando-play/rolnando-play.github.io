@@ -27,22 +27,36 @@
       <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
       <script>
         function generateImage() {
-  // Capturar la página sin el logotipo
-  html2canvas(document.body).then(function(canvas) {
-    const ctx = canvas.getContext('2d');
+  const paymentDataElement = document.getElementById('paypal-button-container');
 
+  html2canvas(document.body, {
+    ignoreElements: function(element) {
+      // Excluir los elementos específicos de la captura de pantalla
+      if (
+        element === paymentDataElement ||
+        element.id === 'idMessage' ||
+        element.id === 'btnTelegram' ||
+        element.id === 'btnCorreo' ||
+        element.id === 'btnDownload'
+      ) {
+        return true;
+      }
+      return false;
+    }
+  }).then(function(canvas) {
+    const ctx = canvas.getContext('2d');
     // Crear una nueva imagen para el logotipo
     const logoImg = new Image();
     logoImg.src = 'logo.png'; // Reemplaza 'ruta_del_logotipo.png' con la ruta correcta a tu imagen de logotipo
 
-// Configurar la fuente del texto
+    // Configurar la fuente del texto
     const font = '20px Arial'; // Reemplaza 'Arial' con el nombre de la fuente que deseas utilizar
     ctx.font = font;
 
-// Dibujar el texto en el lienzo
+    // Dibujar el texto en el lienzo
     const text = 'Gracias por tu pago'; // Texto que deseas agregar a la imagen
     ctx.fillText(text, 10, 10); // Ajusta las coordenadas según sea necesario
-    
+
     // Dibujar el logotipo en la esquina superior derecha de la imagen generada
     logoImg.onload = function() {
       ctx.drawImage(logoImg, canvas.width - logoImg.width - 10, 10); // Ajusta las coordenadas según sea necesario
@@ -54,6 +68,7 @@
     };
   });
 }
+
 
 
 
@@ -88,10 +103,10 @@
     element.innerHTML += '<p><strong>Hora de la transacción:</strong> ' + orderData.create_time + '</p>';
     // Agrega más información relevante del pago según tus necesidades
     // Mostrar el mensaje de éxito
-    element.innerHTML += '<br><br><h3>No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico.</h3>';
-    element.innerHTML += '<br><br><button onclick="window.location.href=\'https://t.me/one1player\'">Telegram</button>';
-    element.innerHTML += '<button onclick="window.location.href=\'mailto:liveparaguay2@gmail.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'">Enviar correo</button>';
-    element.innerHTML += '<br><br><button onclick="generateImage()">Descargar comprobante</button>';
+    element.innerHTML += '<br><br><h3 id="idMessage">No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico.</h3>';
+    element.innerHTML += '<br><br><button id="btnTelegram" onclick="window.location.href=\'https://t.me/one1player\'">Telegram</button>';
+    element.innerHTML += '<button id="btnCorreo" onclick="window.location.href=\'mailto:liveparaguay2@gmail.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'">Enviar correo</button>';
+    element.innerHTML += '<br><br><button id="btnDownload" onclick="generateImage()">Descargar comprobante</button>';
     // O redirigir a otra URL: actions.redirect('thank_you.html');
   });
 },
