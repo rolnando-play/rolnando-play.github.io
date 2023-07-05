@@ -45,11 +45,15 @@
             },
             onApprove: function(data, actions) {
   return actions.order.capture().then(function(orderData) {
-    // Mostrar los datos del pago
+    // Mostrar los datos del pago de forma comprensible
     const element = document.getElementById('paypal-button-container');
     element.innerHTML = '';
     element.innerHTML = '<h3>Gracias por tu pago. A continuación se muestran los detalles:</h3>';
-    element.innerHTML += '<pre>' + JSON.stringify(orderData, null, 2) + '</pre>';
+
+    // Mostrar información relevante del pago
+    element.innerHTML += '<p><strong>ID de la transacción:</strong> ' + orderData.id + '</p>';
+    element.innerHTML += '<p><strong>Monto pagado:</strong> ' + orderData.purchase_units[0].amount.value + ' ' + orderData.purchase_units[0].amount.currency_code + '</p>';
+    // Agrega más información relevante del pago según tus necesidades
 
     // Mostrar el mensaje de éxito
     element.innerHTML += '<br><br><h2>No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico.</h2>';
@@ -57,6 +61,7 @@
     // O redirigir a otra URL: actions.redirect('thank_you.html');
   });
 },
+
 
             /*onApprove: function(data, actions) {
               return actions.order.capture().then(function(orderData) {
