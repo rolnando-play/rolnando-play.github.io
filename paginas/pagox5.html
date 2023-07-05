@@ -25,6 +25,23 @@
       <!-- <script src="https://www.paypal.com/sdk/js?client-id=ARPymw-zjqWET0Gs9fbQMDc-usfYRRqx43U3S06HgIrYh7d_efHN_iK0EtY6xcqKhQIpXYboHWoq2QoQ&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script> -->
       <script src="https://www.paypal.com/sdk/js?client-id=AWVCLLTG-R8Q1p9FOBtTFDspr5exwDzdifSt94v0_UlOHInSHJFZ96JERvbiQYBneEwJeHw_U9_qIGgo&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
       <script>
+
+function captureScreenshot() {
+  const element = document.getElementById('paypal-button-container');
+
+  html2canvas(element).then(function(canvas) {
+    // Crea una imagen a partir del lienzo (canvas)
+    const imgData = canvas.toDataURL('image/png');
+
+    // Crea un elemento <a> para descargar la imagen
+    const link = document.createElement('a');
+    link.href = imgData;
+    link.download = 'comprobante_pago.png';
+    link.click();
+  });
+}
+
+        
         function initPayPalButton() {
           paypal.Buttons({
             style: {
@@ -60,8 +77,9 @@
     // Mostrar el mensaje de éxito
     element.innerHTML += '<br><br><h3>No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico.</h3>';
 
-    element.innerHTML += '<br><br><button onclick="window.location.href=\'https://ejemplo.com\'">Ir a la página web</button>';
-    element.innerHTML += '<button onclick="window.location.href=\'mailto:correo@example.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'">Enviar correo</button>';
+    element.innerHTML += '<br><br><button onclick="window.location.href=\'https://t.me/one1player\'">Telegram</button>';
+    element.innerHTML += '<button onclick="window.location.href=\'mailto:liveparaguay2@gmail.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'">Enviar correo</button>';
+  element.innerHTML += '<br><br><button onclick="captureScreenshot()">Descargar comprobante</button>';
 
     // O redirigir a otra URL: actions.redirect('thank_you.html');
   });
