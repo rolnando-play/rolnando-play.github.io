@@ -8,9 +8,10 @@
       }
       
 button {
-  background-color: blue;
+  background-color: #283241;
   color: white;
-  border-radius: 5px; /* Ajusta el valor según el grado de redondez deseado */
+  border-radius: 5px;
+  font-size: 16px;
 }
 
       .content {
@@ -91,12 +92,12 @@ button {
     content += '<p><strong>Monto pagado:</strong> ' + orderData.purchase_units[0].amount.value + ' ' + orderData.purchase_units[0].amount.currency_code + '</p>';
     content += '<p><strong>Correo del comprador:</strong> ' + orderData.payer.email_address + '</p>';
     content += '<p><strong>Hora de la transacción:</strong> ' + orderData.create_time + '</p>';
+    content += '<br><br><img src="logo.png" alt="Imagen" width="75">';
 
     // Agregar más información relevante del pago según tus necesidades
 
     // Agregar el div con la clase 'divButtons'
     content += '<div class="divButtons" data-html2canvas-ignore="true">';
-    content += '<br><br><img src="logo.png" alt="Imagen" width="75">';
     content += '<br><br><h3>No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico.</h3>';
     content += '<br><br><button onclick="window.open(\'https://t.me/one1player\', \'_blank\')" style="margin-right: 10px;">Telegram</button>';
     content += '<button onclick="window.location.href=\'mailto:liveparaguay2@gmail.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'" style="margin-left: 10px;">Enviar correo</button>';
