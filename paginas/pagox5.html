@@ -51,6 +51,8 @@
                 element.innerHTML = '';
                 element.innerHTML = ' < h3 > Gracias por tu pago, envía el comprobante de pago que recibiste en tu correo a nuestro Telegram o correo! < br > < br > ESTO NO ES UN COMPROBANTE DE PAGO < /h3> < br > < br > < h2 > NO ENVIAR CAPTURA DE ESTE MENSAJE < br > NO ENVIAR CAPTURAS DE LA TRANSACCIÓN DEL BANCO, SOLO LA DE PAYPAL < /h2>';
                 // Or go to another URL: actions.redirect('thank_you.html');
+                // Print the invoice
+                window.print();
               });
             },
             onError: function(err) {
