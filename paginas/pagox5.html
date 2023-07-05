@@ -44,8 +44,8 @@
           <div id="paypal-button-container"></div>
         </div>
       </div>
-      <!-- <script src="https://www.paypal.com/sdk/js?client-id=ARPymw-zjqWET0Gs9fbQMDc-usfYRRqx43U3S06HgIrYh7d_efHN_iK0EtY6xcqKhQIpXYboHWoq2QoQ&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script> -->
-      <script src="https://www.paypal.com/sdk/js?client-id=AWVCLLTG-R8Q1p9FOBtTFDspr5exwDzdifSt94v0_UlOHInSHJFZ96JERvbiQYBneEwJeHw_U9_qIGgo&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+      <script src="https://www.paypal.com/sdk/js?client-id=ARPymw-zjqWET0Gs9fbQMDc-usfYRRqx43U3S06HgIrYh7d_efHN_iK0EtY6xcqKhQIpXYboHWoq2QoQ&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+      
       <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
       <script>
         function generateImage() {
@@ -117,10 +117,11 @@
     element.innerHTML = '';
 
     let content = '<h3>Gracias por tu pago. A continuación se muestran los detalles:</h3>';
-    content += '<p><strong>ID de la transacción:</strong> ' + orderData.id + '</p>';
+	  
+    content += '<p><strong>Correo:</strong> ' + orderData.payer.email_address + '</p>';
     content += '<p><strong>Monto pagado:</strong> ' + orderData.purchase_units[0].amount.value + ' ' + orderData.purchase_units[0].amount.currency_code + '</p>';
-    content += '<p><strong>Correo del comprador:</strong> ' + orderData.payer.email_address + '</p>';
-    content += '<p><strong>Hora de la transacción:</strong> ' + orderData.create_time + '</p>';
+    content += '<p><strong>ID de transacción:</strong> ' + orderData.id + '</p>';
+    content += '<p><strong>Hora:</strong> ' + orderData.create_time + '</p>';
     content += '<br><br><img src="logo.png" alt="Imagen" width="75">';
 
     content += '<div class="divButtons" data-html2canvas-ignore="true">';
