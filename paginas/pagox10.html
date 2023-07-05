@@ -1,11 +1,33 @@
-<html>
+<!DOCTYPE html>
   <head>
     <title>OnePlayer Pro</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
       body {
-        background: #fff;
+        background: #131924;
       }
+      
+.myButton {
+	background-color:#283241;
+	border-radius:28px;
+	border:1px solid #18ab29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	padding:16px 31px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #2f6627;
+}
+.myButton:hover {
+	background-color:#000f14;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
 
       .content {
         max-width: 500px;
@@ -15,7 +37,7 @@
       }
     </style>
   </head>
-  <body>
+  <body style="font-family:arial">
     <div class="content">
       <div id="smart-button-container">
         <div style="text-align: center;">
@@ -23,7 +45,54 @@
         </div>
       </div>
       <script src="https://www.paypal.com/sdk/js?client-id=ARPymw-zjqWET0Gs9fbQMDc-usfYRRqx43U3S06HgIrYh7d_efHN_iK0EtY6xcqKhQIpXYboHWoq2QoQ&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+      
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
       <script>
+        function generateImage() {
+  const paymentDataElement = document.getElementById('paypal-button-container');
+
+  html2canvas(paymentDataElement).then(function(canvas) {
+    const ctx = canvas.getContext('2d');
+    
+    // Configurar bordes redondeados y color
+    const borderRadius = 10; // Ajusta el valor según el grado de redondez deseado
+    const borderColor = '#283241'; // Ajusta el color del borde según tus preferencias
+    ctx.beginPath();
+    ctx.moveTo(borderRadius, 0);
+    ctx.lineTo(canvas.width - borderRadius, 0);
+    ctx.quadraticCurveTo(canvas.width, 0, canvas.width, borderRadius);
+    ctx.lineTo(canvas.width, canvas.height - borderRadius);
+    ctx.quadraticCurveTo(canvas.width, canvas.height, canvas.width - borderRadius, canvas.height);
+    ctx.lineTo(borderRadius, canvas.height);
+    ctx.quadraticCurveTo(0, canvas.height, 0, canvas.height - borderRadius);
+    ctx.lineTo(0, borderRadius);
+    ctx.quadraticCurveTo(0, 0, borderRadius, 0);
+    ctx.closePath();
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 2; // Ajusta el grosor del borde según tus preferencias
+    ctx.stroke();
+    ctx.clip();
+
+    const logoImg = new Image();
+    logoImg.src = 'logo.png'; 
+
+    const font = '20px Arial'; 
+    ctx.font = font;
+
+    const text = 'Gracias por tu pago'; 
+    ctx.fillText(text, 10, 10);
+
+    logoImg.onload = function() {
+      ctx.drawImage(logoImg, canvas.width - logoImg.width - 10, 10);
+      const link = document.createElement('a');
+      link.download = 'comprobante.png';
+      link.href = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      link.click();
+    };
+  });
+}
+
+
         function initPayPalButton() {
           paypal.Buttons({
             style: {
@@ -43,16 +112,28 @@
               });
             },
             onApprove: function(data, actions) {
-              return actions.order.capture().then(function(orderData) {
-                // Full available details
-                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                // Show a success message within this page, e.g.
-                const element = document.getElementById('paypal-button-container');
-                element.innerHTML = '';
-                element.innerHTML = ' < h3 > Gracias por tu pago, envía el comprobante de pago que recibiste en tu correo a nuestro Telegram o correo! < br > < br > ESTO NO ES UN COMPROBANTE DE PAGO < /h3> < br > < br > < h2 > NO ENVIAR CAPTURA DE ESTE MENSAJE < br > NO ENVIAR CAPTURAS DE LA TRANSACCIÓN DEL BANCO, SOLO LA DE PAYPAL < /h2>';
-                // Or go to another URL: actions.redirect('thank_you.html');
-              });
-            },
+  return actions.order.capture().then(function(orderData) {
+    const element = document.getElementById('paypal-button-container');
+    element.innerHTML = '';
+
+    let content = '<h3>Gracias por tu pago. A continuación se muestran los detalles:</h3>';
+	  
+    content += '<p><strong>Correo:</strong> ' + orderData.payer.email_address + '</p>';
+    content += '<p><strong>Monto pagado:</strong> ' + orderData.purchase_units[0].amount.value + ' ' + orderData.purchase_units[0].amount.currency_code + '</p>';
+    content += '<p><strong>ID de transacción:</strong> ' + orderData.id + '</p>';
+    content += '<p><strong>Hora:</strong> ' + orderData.create_time + '</p>';
+    content += '<br><br><img src="logo.png" alt="Imagen" width="75">';
+
+    content += '<div class="divButtons" data-html2canvas-ignore="true">';
+    content += '<br><br><h3>No olvides enviar el comprobante de pago a nuestro Telegram o correo electrónico.</h3>';
+    content += '<br><br><button onclick="window.open(\'https://t.me/one1player\', \'_blank\')" style="margin-right: 10px;" class="myButton">Telegram</button>';
+    content += '<button onclick="window.location.href=\'mailto:liveparaguay2@gmail.com?subject=Comprobante de pago&body=Adjunto mi comprobante de pago\'" style="margin-left: 10px;" class="myButton">Enviar correo</button>';
+    content += '<br><br><button onclick="generateImage()" class="myButton">Descargar comprobante</button>';
+    content += '</div>';
+
+    element.innerHTML = content;
+  });
+},
             onError: function(err) {
               console.log(err);
             }
