@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Web Receiver</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.0/shaka-player.compiled.js"></script>
+    <script src="https://www.gstatic.com/cast/sdk/libs/caf_receiver/v3/cast_receiver_framework.js"></script>
+    <style>
+        /* Estilo global */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212; /* Color de fondo personalizado */
+        }
+
+        /* Video a pantalla completa */
+        #videoElement {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background-color: black;
+        }
+
+        /* Contenedor del mensaje superpuesto */
+        #overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
+            color: white; /* Color del texto */
+            font-size: 24px; /* Tamaño del texto */
+            font-family: Arial, sans-serif; /* Fuente del texto */
+            z-index: 10; /* Por encima del video */
+        }
+
+        /* Ocultar el overlay cuando se inicie la reproducción */
+        #overlay.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay">Cargando transmisión...</div> <!-- Texto superpuesto -->
+    <video id="videoElement" controls autoplay></video>
+    <script>
+        const context = cast.framework.CastReceiverContext.getInstance();
+        const playerManager = context.getPlayerManager();
+
+        // Variable global para la instancia del reproductor
+        let player;
+
+        // Diferenciar entre transmisiones DASH y HLS
+        playerManager.setMessageInterceptor(cast.framework.messages.MessageType.LOAD, async (loadRequestData) => {
+            const mediaInfo = loadRequestData.media;
+            const customData = mediaInfo.customData || {};
+            const contentId = mediaInfo.contentId;
+
+            // Mostrar overlay antes de cargar
+            const overlay = document.getElementById('overlay');
+            overlay.classList.remove('hidden');
+            overlay.textContent = "Cargando transmisión...";
+
+            try {
+                const videoElement = document.getElementById('videoElement');
+
+                // Instalar polyfills de Shaka
+                shaka.polyfill.installAll();
+
+                // Liberar la instancia previa de Shaka Player si existe
+                if (player) {
+                    console.log('Liberando reproductor existente...');
+                    await player.unload(); // Limpia el contenido previo
+                    player = null; // Libera la instancia
+                }
+
+                // Crear una nueva instancia de Shaka Player
+                console.log('Inicializando nuevo reproductor...');
+                player = new shaka.Player(videoElement);
+
+                if (contentId.endsWith('.mpd')) {
+                    console.log('Transmisión DASH detectada.');
+
+                    // Configuración de DRM para ClearKey (si aplica)
+                    if (customData.licenseUrl && customData.keyId && customData.keyValue) {
+                        const clearKeys = {};
+                        clearKeys[customData.keyId] = customData.keyValue;
+
+                        player.configure({
+                            drm: {
+                                clearKeys: clearKeys,
+                                servers: {
+                                    'org.w3.clearkey': customData.licenseUrl,
+                                },
+                            },
+                        });
+                        console.log('Configuración de DRM aplicada.');
+                    }
+                } else if (contentId.endsWith('.m3u8')) {
+                    console.log('Transmisión HLS detectada.');
+
+                    // Configurar reproductor para HLS
+                    player.configure({
+                        streaming: {
+                            useNativeHlsOnSafari: true, // Si es Safari, usa el reproductor nativo
+                        },
+                    });
+                } else {
+                    console.error('Formato no soportado:', contentId);
+                    return null; // Detenemos el manejo si el formato no es compatible
+                }
+
+                // Cargar el contenido
+                console.log(`Cargando contenido desde: ${contentId}`);
+                await player.load(contentId);
+                console.log('Contenido cargado correctamente.');
+
+                // Iniciar reproducción
+                videoElement.play();
+
+                // Ocultar el overlay
+                overlay.classList.add('hidden');
+            } catch (error) {
+                console.error('Error al manejar la nueva transmisión:', error);
+                overlay.textContent = "Error al cargar la transmisión. Por favor, inténtalo de nuevo.";
+            }
+
+            // Detenemos el manejo predeterminado
+            return null;
+        });
+
+        // Iniciar el contexto de Cast Receiver
+        context.start();
+    </script>
+</body>
+</html>
